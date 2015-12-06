@@ -2,8 +2,8 @@
 It's a pure PHP CLI example application. 
 
 ## Usage
-app/cli.php <command name> [arg1, [arg2,...]];
-app/cli.php CountTags img nazar-blog.com
+* app/cli.php <command name> [arg1, [arg2,...]]
+* app/cli.php CountTags img nazar-blog.com
 
 ## What it does?
 * parses site to find all pages (crawler)
