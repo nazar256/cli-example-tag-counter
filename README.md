@@ -11,3 +11,4 @@ It's a pure PHP CLI example application.
 
 ## TODO
 * add support for links without schema (//example.com/)
+* limit page load iterations
