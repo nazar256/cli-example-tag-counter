@@ -1,11 +1,13 @@
 <?php
-spl_autoload_register(function ($class) {
+spl_autoload_register(
+    function ($class) {
 
-    $baseDir = __DIR__ . '/../src/';
+        $baseDir = __DIR__ . '/../src/';
 
-    $classFilePath = $baseDir . str_replace('\\', '/', $class) . '.php';
+        $classFilePath = $baseDir . str_replace('\\', '/', $class) . '.php';
 
-    if (file_exists($classFilePath)) {
-        require $classFilePath;
+        if (file_exists($classFilePath)) {
+            require $classFilePath;
+        }
     }
-});
+);

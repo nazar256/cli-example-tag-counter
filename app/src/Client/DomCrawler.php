@@ -2,6 +2,9 @@
 
 namespace Client;
 
+/**
+ * Parses HTML content and performs tasks with DOMDocument object
+ */
 class DomCrawler
 {
     /**
@@ -29,6 +32,15 @@ class DomCrawler
 
     /**
      * @param string $tagName
+     * @return int
+     */
+    public function countTags($tagName)
+    {
+        return $this->findByTagName($tagName)->length;
+    }
+
+    /**
+     * @param string $tagName
      * @return \DOMNodeList
      */
     public function findByTagName($tagName)
@@ -36,11 +48,12 @@ class DomCrawler
         return $this->domDocument->getElementsByTagName($tagName);
     }
 
-    public function countTags($tagName)
-    {
-        return $this->findByTagName($tagName)->length;
-    }
-
+    /**
+     * Finds links to other pages of the same domain
+     * @todo add support to relative links
+     * @param string $domainNameForLinks
+     * @return array
+     */
     public function findUrlsOfDomain($domainNameForLinks)
     {
         $urls = [];

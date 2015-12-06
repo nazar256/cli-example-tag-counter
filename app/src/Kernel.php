@@ -1,13 +1,16 @@
 <?php
-use IO\Input;
-use IO\TerminalOutput;
 use Commands\AbstractCommand;
+use IO\Input;
 use IO\Interfaces\InputInterface;
 use IO\Interfaces\OutputInterface;
+use IO\TerminalOutput;
 
+/**
+ * Main Application class
+ */
 class Kernel
 {
-    const ARG_IDX_COMMAND = 0;
+    const ARG_IDX_COMMAND   = 0;
     const COMMAND_NAMESPACE = 'Commands';
 
     /**
@@ -20,6 +23,10 @@ class Kernel
      */
     private $output;
 
+    /**
+     * initializes application
+     * @return $this
+     */
     public function boot()
     {
         global $argv;
@@ -30,9 +37,12 @@ class Kernel
         return $this;
     }
 
+    /**
+     * Selects and executes appropriate command
+     */
     public function executeCommand()
     {
-        try{
+        try {
             $command = $this->instantiateCommand();
             $command->execute();
         } catch (Exception $exception) {
@@ -47,11 +57,11 @@ class Kernel
     {
         global $registeredCommands;
         $commandName = $this->input->getArgument(self::ARG_IDX_COMMAND);
-        if(!$commandName) {
+        if (!$commandName) {
             throw new InvalidArgumentException('Command was not specified');
         }
-        $commandClassName = self::COMMAND_NAMESPACE. '\\'. $commandName. 'Command';
-        if(!in_array($commandName, $registeredCommands)){
+        $commandClassName = self::COMMAND_NAMESPACE . '\\' . $commandName . 'Command';
+        if (!in_array($commandName, $registeredCommands)) {
             throw new InvalidArgumentException(sprintf('Command %s does not exist', $commandName));
         }
 

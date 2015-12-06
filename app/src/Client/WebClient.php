@@ -3,23 +3,14 @@
 namespace Client;
 
 /**
+ * Performs simultaneous HTTP requests, returns loaded content
  */
 class WebClient
 {
-    const TIMEOUT = 60;
+    const TIMEOUT        = 60;
     const LOAD_WAIT_TIME = 0.1;
 
-
-    public function __construct()
-    {
-    }
-
-    public function __destruct()
-    {
-    }
-
     /**
-     * @todo chop into methods
      * @param string[] $urls
      * @return string[]
      */
@@ -42,7 +33,7 @@ class WebClient
 
         $results = [];
         // get content and remove handles
-        foreach($urls as $url) {
+        foreach ($urls as $url) {
             $currentHandler = $curlHandlers[$url];
             $results[$url] = curl_multi_getcontent($currentHandler);
             curl_multi_remove_handle($multiHandler, $currentHandler);

@@ -2,8 +2,16 @@
 
 namespace View;
 
+/**
+ * Class AbstractView
+ */
 abstract class AbstractView
 {
+    /**
+     * @param array $templateVars
+     * @return string
+     * @throws \Exception
+     */
     public function render(array $templateVars)
     {
         $templateName = $this->getTemplateName();
@@ -12,7 +20,18 @@ abstract class AbstractView
         return $this->renderTemplate($templateVars, $templatePath);
     }
 
+    /**
+     * Requires concrete view to define template
+     * @return string
+     */
+    abstract protected function getTemplateName();
 
+    /**
+     * @param array  $templateVars
+     * @param string $templatePath
+     * @return string
+     * @throws \Exception
+     */
     private function renderTemplate(array $templateVars, $templatePath)
     {
         if (!file_exists($templatePath)) {
@@ -27,6 +46,4 @@ abstract class AbstractView
 
         return $renderedContent;
     }
-
-    abstract protected function getTemplateName();
 }

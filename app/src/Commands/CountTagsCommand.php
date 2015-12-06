@@ -6,6 +6,9 @@ use Client\DomCrawler;
 use Client\WebClient;
 use View\ReportView;
 
+/**
+ * Command for crawling site and counting tags
+ */
 class CountTagsCommand extends AbstractCommand
 {
     const ARG_IDX_URL       = 1;
@@ -14,11 +17,20 @@ class CountTagsCommand extends AbstractCommand
     const DATE_FORMAT       = 'd.m.Y';
     const PAGES_PER_TIME    = 20;
 
-    private $newUrls    = [];
+    /**
+     * @var string[]
+     */
+    private $newUrls = [];
 
+    /**
+     * @var string
+     */
     private $parsedUrls = [];
 
 
+    /**
+     * {@inheritdoc}
+     */
     public function execute()
     {
         $this->outputMessage('command started');
@@ -47,11 +59,15 @@ class CountTagsCommand extends AbstractCommand
         $this->outputMessage(sprintf('got %s rows of stats, sorting...', count($pagesStats)));
         $this->sortStats($pagesStats);
 
-        $this->outputMessage('genering HTML report');
+        $this->outputMessage('generating HTML report');
         $this->saveReport($pagesStats, $tagNameToCount);
         $this->outputMessage('done.');
     }
 
+    /**
+     * Loads pages. Simultaneously but with limit.
+     * @return string[]
+     */
     private function loadPages()
     {
         $webClient = new WebClient();
@@ -71,7 +87,13 @@ class CountTagsCommand extends AbstractCommand
         return $allPages;
     }
 
-
+    /**
+     * Gathers stats and new URLs for page
+     * @param string $page
+     * @param string $url
+     * @param string $tagNameToCount
+     * @return array
+     */
     private function processPage($page, $url, $tagNameToCount)
     {
         $pageParseStartTime = microtime(true);
@@ -102,6 +124,11 @@ class CountTagsCommand extends AbstractCommand
         return $resultStats;
     }
 
+    /**
+     * Sorts stats by tag count (descending)
+     * @param array $pagesStats
+     * @return bool
+     */
     private function sortStats(array &$pagesStats)
     {
         return uasort(
@@ -112,6 +139,11 @@ class CountTagsCommand extends AbstractCommand
         );
     }
 
+    /**
+     * Saves report to file in current directory
+     * @param array  $pagesStats
+     * @param string $tagNameToCount
+     */
     private function saveReport(array $pagesStats, $tagNameToCount)
     {
         $templateVars = [
@@ -123,7 +155,10 @@ class CountTagsCommand extends AbstractCommand
         file_put_contents($this->getOutputFileName(), $reportContent);
     }
 
-
+    /**
+     * Generates report file name by current date
+     * @return string
+     */
     private function getOutputFileName()
     {
         $formattedDate = date(self::DATE_FORMAT);
@@ -132,6 +167,10 @@ class CountTagsCommand extends AbstractCommand
         return $fileName;
     }
 
+    /**
+     * Writes message to output interface with time from start
+     * @param $message
+     */
     private function outputMessage($message)
     {
         $currentTime = microtime(true);
