@@ -80,6 +80,7 @@ class CountTagsCommand extends AbstractCommand
             ReportView::KEY_TAG_COUNT    => 0,
             ReportView::KEY_PROCESS_TIME => 0
         ];
+        $this->parsedUrls[] = $url;
 
         try {
             $crawler = new DomCrawler($page);
@@ -94,8 +95,6 @@ class CountTagsCommand extends AbstractCommand
         $currentDomain = parse_url($url, PHP_URL_HOST);
         $urlsOnPage = $crawler->findUrlsOfDomain($currentDomain);
         $this->newUrls = array_merge($this->newUrls, $urlsOnPage);
-
-        $this->parsedUrls[] = $url;
 
         $pageParseEndTime = microtime(true);
         $resultStats[ReportView::KEY_PROCESS_TIME] = $pageParseEndTime - $pageParseStartTime;

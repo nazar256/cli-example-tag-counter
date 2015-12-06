@@ -10,5 +10,6 @@ It's a pure PHP CLI example application.
 * loads pages simultaneously with multi-cURL
 
 ## TODO
-* add support for links without schema (//example.com/)
-* limit page load iterations
+* add support for related paths (issue with php.net)
+* limit page load iterations (issue with star-marketing.com.ua)
+* add subdomain support

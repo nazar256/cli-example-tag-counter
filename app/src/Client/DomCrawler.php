@@ -15,10 +15,10 @@ class DomCrawler
      */
     public function __construct($pageContent)
     {
-        if(!$pageContent){
+        if (!$pageContent) {
             throw new \InvalidArgumentException('No page content provided');
         }
-        $previous_value = libxml_use_internal_errors(TRUE);
+        $previous_value = libxml_use_internal_errors(true);
 
         $this->domDocument = new \DOMDocument();
         $this->domDocument->loadHTML($pageContent);
@@ -54,7 +54,8 @@ class DomCrawler
             $extension = pathinfo($path, PATHINFO_EXTENSION);
             $isHtmlUrl = !$extension || $extension === 'html';
             if ($domain === $domainNameForLinks && $isHtmlUrl) {
-                $urls[] = sprintf('%s://%s%s', $scheme, $domain , $path);
+                $schemePart = $scheme ? $scheme . '://' : '';
+                $urls[] = $schemePart . $domain . $path;
             }
         }
 
